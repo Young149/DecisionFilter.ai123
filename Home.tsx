@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 type Screen = "input" | "loading" | "questions" | "verdict";
-
 interface Question { id: string; question: string; placeholder: string; }
 interface VerdictData {
   dilemma: string; category: string; product: string; tagline: string;
@@ -34,7 +33,7 @@ export default function Home() {
       data.questions.forEach((q: Question) => { init[q.id] = ""; });
       setAnswers(init);
       setScreen("questions");
-    } catch (e) {
+    } catch {
       setError("Something went wrong. Please try again.");
       setScreen("input");
     }
@@ -55,13 +54,16 @@ export default function Home() {
       if (!res.ok) throw new Error(data.error);
       setVerdict(data);
       setScreen("verdict");
-    } catch (e) {
+    } catch {
       setError("Failed to get verdict. Try again.");
       setScreen("questions");
     }
   };
 
-  const reset = () => { setScreen("input"); setDilemma(""); setQuestions([]); setAnswers({}); setVerdict(null); setError(""); };
+  const reset = () => {
+    setScreen("input"); setDilemma(""); setQuestions([]);
+    setAnswers({}); setVerdict(null); setError("");
+  };
 
   return (
     <div style={{ background: "#F2EFE9", minHeight: "100vh", fontFamily: "sans-serif", color: "#1A1816" }}>
@@ -153,3 +155,4 @@ export default function Home() {
       )}
     </div>
   );
+    }
